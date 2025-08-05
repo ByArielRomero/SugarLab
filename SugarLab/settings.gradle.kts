@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "TEAM-TRAINING-BOOK"
+rootProject.name = "SugarLab"
 include(":app")
  
