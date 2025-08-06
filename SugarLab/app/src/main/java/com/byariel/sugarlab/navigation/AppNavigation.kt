@@ -4,8 +4,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
 import com.byariel.sugarlab.screens.AnagramaScreen
-import com.byariel.sugarlab.screens.CarreraDeObstaculosScreen
-import com.byariel.sugarlab.screens.CarreraDeObstaculosScreen
+import com.byariel.sugarlab.screens.CarreraObstaculosScreen
 import com.byariel.sugarlab.screens.FizzBuzzScreen
 import com.byariel.sugarlab.screens.HomeScreen
 import com.byariel.sugarlab.screens.PoligonoScreen
@@ -18,7 +17,7 @@ fun AppNavigation(){
         composable("fizzbuzz") { FizzBuzzScreen() }
         composable("anagrama") { AnagramaScreen() }
         composable("poligono") { PoligonoScreen() }
-        composable("CarreraObstaculos") { CarreraDeObstaculosScreen() }
+        composable("CarreraObstaculos") { CarreraObstaculosScreen() }
     }
 }
 

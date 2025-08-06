@@ -13,10 +13,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -152,5 +155,48 @@ fun PoligonoScreen() {
 
         Text(text = area)
     }
+
+    PoligonoAyuda()
 }
 
+@Composable
+fun PoligonoAyuda() {
+    var mostrarDialogo by remember { mutableStateOf(false) }
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Button(colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF1976D2),  // color de fondo
+            contentColor = Color.White            // color del texto
+        ),onClick = { mostrarDialogo = true }) {
+            Text("¿Cómo funciona?")
+        }
+
+        if (mostrarDialogo) {
+            AlertDialog(
+                onDismissRequest = { mostrarDialogo = false },
+                confirmButton = {
+                    TextButton(onClick = { mostrarDialogo = false }) {
+                        Text("Entendido")
+                    }
+                },
+                title = { Text("Reglas del reto") },
+                text = {
+                    Text(
+                        """
+                        📐 Calculadora de áreas
+
+                        Podés calcular el área de un triángulo, un rectángulo o un cuadrado.
+
+                        Solo seleccioná el tipo de figura y completá sus lados.
+
+                        El juego hace el cálculo automáticamente.
+
+
+                        """.trimIndent()
+                    )
+                }
+            )
+        }
+    }
+}

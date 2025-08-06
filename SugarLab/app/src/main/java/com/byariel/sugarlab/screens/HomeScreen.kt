@@ -74,7 +74,7 @@ fun HomeScreen(navController: NavHostController) {
 
         Button(
             modifier = Modifier.fillMaxWidth(0.7f),
-            onClick = { navController.navigate("") }
+            onClick = { navController.navigate("CarreraObstaculos") }
         ) {
             Text("\uD83C\uDFC3Carrera de obstaculos", fontSize = 18.sp, style = MaterialTheme.typography.titleLarge)
         }

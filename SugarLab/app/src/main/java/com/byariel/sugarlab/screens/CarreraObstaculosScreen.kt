@@ -20,7 +20,7 @@ import com.byariel.sugarlab.R
 
 @Preview
 @Composable
-fun CarreraDeObstaculosScreen() {
+fun CarreraObstaculosScreen() {
     // Estados que se actualizan al presionar el botón
     var pista by remember { mutableStateOf(generarPistaAleatoria(6)) }
     var acciones by remember { mutableStateOf(generarAccionesAleatorias(6)) }
@@ -59,6 +59,8 @@ fun CarreraDeObstaculosScreen() {
             Text("🎲 Nueva carrera")
         }
 
+        CarreraAyuda()
+
         Spacer(modifier = Modifier.height(45.dp))
 
         Image(
@@ -74,3 +76,48 @@ fun CarreraDeObstaculosScreen() {
     }
 }
 
+@Composable
+fun CarreraAyuda() {
+    var mostrarDialogo by remember { mutableStateOf(false) }
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Button(colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF1976D2),  // color de fondo
+            contentColor = Color.White            // color del texto
+        ),onClick = { mostrarDialogo = true }) {
+            Text("¿Cómo funciona?")
+        }
+
+        if (mostrarDialogo) {
+            AlertDialog(
+                onDismissRequest = { mostrarDialogo = false },
+                confirmButton = {
+                    TextButton(onClick = { mostrarDialogo = false }) {
+                        Text("Entendido")
+                    }
+                },
+                title = { Text("Reglas del reto") },
+                text = {
+                    Text(
+                        """
+                        🏃 Carrera de obstáculos
+
+                        Vas a ver una pista con suelo (_) y vallas (|).
+
+                        El atleta tiene que:
+                        - correr (run) en el suelo (_)
+                        - saltar (jump) en las vallas (|)
+
+                        Si hace lo correcto, avanza. Si no, se equivoca.
+
+                        ¿Podés completar la pista sin errores?
+
+
+                        """.trimIndent()
+                    )
+                }
+            )
+        }
+    }
+}

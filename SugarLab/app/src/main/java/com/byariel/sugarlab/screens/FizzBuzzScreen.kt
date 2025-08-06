@@ -7,14 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +32,7 @@ import com.byariel.sugarlab.logic.FizzBuzzEvaluar
 
 @Preview(showBackground = true)
 @Composable
-fun FizzBuzzScreen(){
+fun FizzBuzzScreen() {
     val numero = remember { mutableStateOf("") }
     val resultado = remember { mutableStateOf("") }
 
@@ -70,15 +75,12 @@ fun FizzBuzzScreen(){
             Text("Ver resultado")
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
-
         Text(
             text = resultado.value,
             style = MaterialTheme.typography.titleLarge
         )
-
-        Spacer(modifier = Modifier.height(24.dp))
-
+        fizzBuzzAyuda()
+        Spacer(modifier = Modifier.height(30.dp))
         Image(
             painter = painterResource(id = R.drawable.fizzbuzz),
             contentDescription = "Logo decorativo",
@@ -86,6 +88,54 @@ fun FizzBuzzScreen(){
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth(1f)
         )
+
+
+    }
+}
+
+
+@Composable
+fun fizzBuzzAyuda() {
+    var mostrarDialogo by remember { mutableStateOf(false) }
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Button(colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xFF1976D2),  // color de fondo
+            contentColor = Color.White            // color del texto
+        ),onClick = { mostrarDialogo = true }) {
+            Text("¿Cómo funciona?")
+        }
+
+        if (mostrarDialogo) {
+            AlertDialog(
+                onDismissRequest = { mostrarDialogo = false },
+                confirmButton = {
+                    TextButton(onClick = { mostrarDialogo = false }) {
+                        Text("Entendido")
+                    }
+                },
+                title = { Text("Reglas del reto") },
+                text = {
+                    Text(
+                        """
+                        🔤🧠 ¿Cómo funciona?
+
+                        Vas a ver los números del 1 al 100.
+                        
+                        Pero ojo:
+                        - Si un número es múltiplo de 3, aparece "fizz"
+                        - Si es múltiplo de 5, aparece "buzz"
+                        - Si es múltiplo de ambos, aparece "fizzbuzz"
+                        
+                        ¡Probá a descubrir el patrón!
+
+
+                        """.trimIndent()
+                    )
+                }
+            )
+        }
     }
 }
 
