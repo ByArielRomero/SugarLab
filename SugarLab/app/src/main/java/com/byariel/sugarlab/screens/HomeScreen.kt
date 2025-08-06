@@ -22,6 +22,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 
 /**
@@ -71,7 +72,20 @@ fun HomeScreen(navController: NavHostController) {
             Text("📐 Área Polígono", style = MaterialTheme.typography.titleLarge)
         }
 
-        Spacer(modifier = Modifier.height(20.dp))
+        Button(
+            modifier = Modifier.fillMaxWidth(0.7f),
+            onClick = { navController.navigate("") }
+        ) {
+            Text("\uD83C\uDFC3Carrera de obstaculos", fontSize = 18.sp, style = MaterialTheme.typography.titleLarge)
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth(0.7f),
+            onClick = { navController.navigate("") }
+        ) {
+            Text("\uD83C\uDFC3Conjuntos",  style = MaterialTheme.typography.titleLarge)
+        }
+
 
         Image(
             painter = painterResource(id = R.drawable.logo),
@@ -79,7 +93,7 @@ fun HomeScreen(navController: NavHostController) {
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth(1f)
-                .fillMaxHeight(0.5f)
+                .fillMaxHeight(0.4f)
         )
 
         Spacer(modifier = Modifier.height(20.dp))
