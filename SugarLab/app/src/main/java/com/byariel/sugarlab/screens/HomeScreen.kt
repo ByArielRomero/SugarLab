@@ -38,7 +38,10 @@ fun HomeScreen(navController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()         // Ocupa toda la pantalla
             .padding(20.dp),       // Padding alrededor para que no pegue a los bordes
-        verticalArrangement = Arrangement.spacedBy(30.dp, Alignment.CenterVertically), // Espacio vertical entre hijos + centrar verticalmente
+        verticalArrangement = Arrangement.spacedBy(
+            30.dp,
+            Alignment.CenterVertically
+        ), // Espacio vertical entre hijos + centrar verticalmente
         horizontalAlignment = Alignment.CenterHorizontally  // Centra horizontalmente los hijos
     ) {
 
@@ -76,17 +79,42 @@ fun HomeScreen(navController: NavHostController) {
             modifier = Modifier.fillMaxWidth(0.7f),
             onClick = { navController.navigate("CarreraObstaculos") }
         ) {
-            Text("\uD83C\uDFC3Carrera de obstaculos", fontSize = 18.sp, style = MaterialTheme.typography.titleLarge)
+            Text(
+                "\uD83C\uDFC3Carrera de obstaculos",
+                fontSize = 18.sp,
+                style = MaterialTheme.typography.titleLarge
+            )
         }
 
         Button(
             modifier = Modifier.fillMaxWidth(0.7f),
-            onClick = { navController.navigate("") }
+            onClick = { navController.navigate("Conjuntos") }
         ) {
-            Text("\uD83C\uDFC3Conjuntos",  style = MaterialTheme.typography.titleLarge)
+            Text("\uD83C\uDFC3Conjuntos", style = MaterialTheme.typography.titleLarge)
+        }
+
+        Button(
+            modifier = Modifier.fillMaxWidth(0.7f),
+            onClick = { navController.navigate("PiedraPapelTijera") }
+        ) {
+            Text(
+                "\uD83E\uDEA8Piedra, papel o tijera",
+                fontSize = 18.sp,
+                style = MaterialTheme.typography.titleLarge
+            )
         }
 
 
+        Button(
+            modifier = Modifier.fillMaxWidth(0.7f),
+            onClick = { navController.navigate("PiedraPapelTijera") }
+        ) {
+            Text(
+                "⭕ Los anillos del poder",
+                fontSize = 18.sp,
+                style = MaterialTheme.typography.titleLarge
+            )
+        }
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = "Logo decorativo",
