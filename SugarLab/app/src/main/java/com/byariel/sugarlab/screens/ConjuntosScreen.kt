@@ -54,88 +54,80 @@ fun ConjuntosScreen() {
             .fillMaxSize()
             .padding(20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        //verticalArrangement = Arrangement.Center
     ) {
 
-
-        //TITIULO MAIN
         Text(
-            "🚀Conjuntos", style = MaterialTheme.typography.headlineMedium,
+            "🚀Conjuntos",
+            style = MaterialTheme.typography.headlineMedium,
         )
         Spacer(modifier = Modifier.height(24.dp))
 
-        //SPACE
-        Spacer(modifier = Modifier.height(24.dp))
-
-        //INPUT TEXT 1
-        Text(text = "IIngrese el conjunto 1 (máximo 15 números separados por punto (\".\")",
-            fontSize = 20.sp, // o headlineMedium para más grande
+        Text(
+            text = "Ingrese el conjunto 1 (máximo 15 números separados por punto \".\")",
+            fontSize = 20.sp,
             textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(), // ocupa todo el ancho disponible
-            maxLines = 2,  // máximo 2 líneas, por ejemplo
-            //overflow = TextOverflow.Ellipsis // si no entra en 2 líneas, muestra "..."
+            modifier = Modifier.fillMaxWidth(),
+            maxLines = 2,
         )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = inputArray1,
-            onValueChange = {
-                if ( (it.length <= 10)){
-                    inputArray1 = limitarA5(it)
+            onValueChange = { nuevoTexto ->
+                val limpio = nuevoTexto.replace(Regex("[^0-9.]"), "")
+                val numeros = limpio.split(".").filter { it.isNotEmpty() }
+
+                // Solo actualizar si hay <= 15 números
+                if (numeros.size <= 15) {
+                    inputArray1 = limitarA15Numeros(nuevoTexto)
                 }
             },
             placeholder = { Text("Ej: 1.2.35.42.5") },
-
-            //TECLADO NUMERICO
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        //INPUT TEXT 2
-        Text(text = "Ingrese el conjunto 2 (máximo 15 números separados por punto (\".\")",
-            fontSize = 20.sp, // o headlineMedium para más grande
-            modifier = Modifier.fillMaxWidth(), // ocupa todo el ancho disponible
-            maxLines = 2,  // máximo 2 líneas, por ejemplo
-            textAlign = TextAlign.Center
-            //overflow = TextOverflow.Ellipsis // si no entra en 2 líneas, muestra "...")
+        Text(
+            text = "Ingrese el conjunto 2 (máximo 15 números separados por punto \".\")",
+            fontSize = 20.sp,
+            modifier = Modifier.fillMaxWidth(),
+            maxLines = 2,
+            textAlign = TextAlign.Center,
         )
         Spacer(modifier = Modifier.height(10.dp))
         OutlinedTextField(
             value = inputArray2,
-            onValueChange = {
-                if ((it.length <= 10)){
-                    inputArray2 = limitarA5(it)
+            onValueChange = { nuevoTexto ->
+                val limpio = nuevoTexto.replace(Regex("[^0-9.]"), "")
+                val numeros = limpio.split(".").filter { it.isNotEmpty() }
+                if (numeros.size <= 15) {
+                    inputArray2 = limitarA15Numeros(nuevoTexto)
                 }
             },
             placeholder = { Text("Ej: 1.22.35.4.5") },
-
-            //TECLADO NUMERICO
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
         Spacer(modifier = Modifier.height(24.dp))
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Button({
+            Button(onClick = {
                 esComun = true
                 val arrayEnteros = parsearArray(inputArray1)
                 val arrayEnteros2 = parsearArray(inputArray2)
-
-                 resultado = ConjuntosLogic(arrayEnteros, arrayEnteros2, esComun)
+                resultado = ConjuntosLogic(arrayEnteros, arrayEnteros2, esComun)
             }) {
                 Text("Comunes")
             }
             Spacer(modifier = Modifier.width(20.dp))
-            Button({
+            Button(onClick = {
                 esComun = false
                 val arrayInt1 = parsearArray(inputArray1)
                 val arrayInt2 = parsearArray(inputArray2)
-
-                 resultado = ConjuntosLogic(arrayInt1, arrayInt2, esComun)
+                resultado = ConjuntosLogic(arrayInt1, arrayInt2, esComun)
             }) {
                 Text("No Comunes")
             }
@@ -144,27 +136,24 @@ fun ConjuntosScreen() {
         Spacer(modifier = Modifier.height(24.dp))
 
         val texto = resultado.joinToString(separator = ", ")
-        Text("Resultado: $texto",
+        Text(
+            "Resultado: $texto",
             fontSize = 20.sp,
-            )
+        )
 
         Spacer(modifier = Modifier.height(24.dp))
 
         ConjuntosAyuda()
-
-
     }
-
-
 }
 
-// Solo permite dígitos, comas y opcionalmente espacios
-
-
-// Limita la entrada a máximo 5 números
-fun limitarA5(texto: String): String {
-    return texto // solo números
-        .take(10)                         // tomar máximo 5 dígitos
+// Función que limpia y asegura que solo haya hasta 15 números separados por puntos
+fun limitarA15Numeros(texto: String): String {
+    val limpio = texto.replace(Regex("[^0-9.]"), "")
+    val partes = limpio.split(".").filter { it.isNotEmpty() }
+    val primeros15 = partes.take(15)
+    val terminaEnPunto = limpio.endsWith(".") && primeros15.size < 15
+    return primeros15.joinToString(".") + if (terminaEnPunto) "." else ""
 }
 
 // Convierte el texto a Array<Int>

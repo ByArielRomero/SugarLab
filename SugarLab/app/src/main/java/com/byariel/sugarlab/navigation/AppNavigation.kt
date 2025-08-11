@@ -3,7 +3,9 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.compose.composable
+import com.byariel.sugarlab.logic.AnillosDelPoderLogic
 import com.byariel.sugarlab.screens.AnagramaScreen
+import com.byariel.sugarlab.screens.AnillosDelPoderScreen
 import com.byariel.sugarlab.screens.CarreraObstaculosScreen
 import com.byariel.sugarlab.screens.ConjuntosScreen
 import com.byariel.sugarlab.screens.FizzBuzzScreen
@@ -22,6 +24,7 @@ fun AppNavigation(){
         composable("CarreraObstaculos") { CarreraObstaculosScreen() }
         composable("Conjuntos") { ConjuntosScreen() }
         composable("piedraPapelTijera") { PiedraPapelTijeraScreen() }
+        composable("anillosDelPoder") { AnillosDelPoderScreen() }
     }
 }
 

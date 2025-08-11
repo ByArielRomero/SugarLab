@@ -107,7 +107,7 @@ fun HomeScreen(navController: NavHostController) {
 
         Button(
             modifier = Modifier.fillMaxWidth(0.7f),
-            onClick = { navController.navigate("PiedraPapelTijera") }
+            onClick = { navController.navigate("AnillosDelPoder") }
         ) {
             Text(
                 "⭕ Los anillos del poder",

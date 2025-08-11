@@ -8,11 +8,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +48,7 @@ fun PiedraPapelTijeraScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(10.dp)
     ) {
         // Título
         Text(
@@ -184,6 +187,16 @@ fun PiedraPapelTijeraScreen() {
             ) {
                 Text("Reiniciar")
             }
+
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Row (modifier = Modifier
+            .fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center
+        ){
+            piedraPapelTijeraAyuda()
         }
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -258,5 +271,54 @@ fun SelectionCard(
                     onClick()
                 }
         )
+    }
+}
+
+@Composable
+fun piedraPapelTijeraAyuda() {
+    var mostrarDialogo by remember { mutableStateOf(false) }
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+        Button(
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF1976D2),  // color de fondo
+                contentColor = Color.White, // color del texto
+
+            ),
+            onClick = { mostrarDialogo = true }) {
+            Text("¿Cómo funciona?")
+        }
+
+        if (mostrarDialogo) {
+            AlertDialog(
+                onDismissRequest = { mostrarDialogo = false },
+                confirmButton = {
+                    TextButton(onClick = { mostrarDialogo = false }) {
+                        Text("Entendido")
+                    }
+                },
+                title = { Text("Reglas del reto") },
+                text = {
+                    Text(
+                        """
+                        ✋ Piedra, Papel o Tijera
+
+                        Cada jugador elige: Piedra (R), Papel (P) o Tijera (S).
+                    
+                        Reglas:
+                        - Piedra gana a Tijera
+                        - Tijera gana a Papel
+                        - Papel gana a Piedra
+                    
+                        El programa calcula quién gana más partidas.
+                    
+                        ¿Quién será el campeón?
+
+                        """.trimIndent()
+                    )
+                }
+            )
+        }
     }
 }
