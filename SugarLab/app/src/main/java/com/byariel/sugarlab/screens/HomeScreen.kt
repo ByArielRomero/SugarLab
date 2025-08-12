@@ -1,6 +1,13 @@
 package com.byariel.sugarlab.screens
 
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import com.byariel.sugarlab.R
@@ -16,8 +23,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -123,6 +132,29 @@ fun HomeScreen(navController: NavHostController) {
                 .fillMaxWidth(1f)
                 .fillMaxHeight(0.4f)
         )
+
+        val infiniteTransition = rememberInfiniteTransition()
+        val borderColor by infiniteTransition.animateColor(
+            initialValue = Color.Magenta,
+            targetValue = Color.Cyan,
+            animationSpec = infiniteRepeatable(
+                animation = tween(durationMillis = 1500, easing = LinearEasing),
+                repeatMode = RepeatMode.Reverse
+            )
+        )
+
+        Button(
+            modifier = Modifier
+                .fillMaxWidth(1f)
+                .border(3.dp, borderColor, shape = MaterialTheme.shapes.medium),
+            onClick = { navController.navigate("AnillosDelPoder") }
+        ) {
+            Text(
+                "Book 2",
+                fontSize = 18.sp,
+                style = MaterialTheme.typography.titleLarge
+            )
+        }
 
         Spacer(modifier = Modifier.height(20.dp))
 
