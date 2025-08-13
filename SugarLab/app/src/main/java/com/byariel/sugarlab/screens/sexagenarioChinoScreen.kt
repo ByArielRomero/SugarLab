@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,6 +26,7 @@ import com.byariel.sugarlab.componentes.BotonPrimario
 import com.byariel.sugarlab.componentes.CardPair
 import com.byariel.sugarlab.componentes.InputNumber
 import com.byariel.sugarlab.componentes.TituloSeccion
+import com.byariel.sugarlab.componentes.sexagenarioChino.BotonChino
 import com.byariel.sugarlab.logic.SexagenarioChinoLogic
 import com.byariel.sugarlab.ui.theme.Blanco
 import com.byariel.sugarlab.ui.theme.EspaciadoGrande
@@ -37,20 +39,11 @@ fun SexagenarioChinoScreen() {
     var previewValue by remember { mutableStateOf("") }
     var valorConvertido by remember { mutableStateOf(0) }
     var resultado by remember { mutableStateOf<Pair<String, String>>(Pair("", "")) }
-    /*Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(Color(0xFFFF0000), Color(0xFFFFD700))
-                )
-            )
-    ) {*/
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(EspaciadoMedio)
-        .background(MaterialTheme.colorScheme.background),
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
 
         ) {
@@ -79,13 +72,14 @@ fun SexagenarioChinoScreen() {
                 valorConvertido = ConverrtirStringToInt(previewValue);
             }
 
-            BotonPrimario(
+            BotonChino(
                 "Mostrar elemento y animal",
                 onClick =
                     {
                         resultado = SexagenarioChinoLogic(valorConvertido)
                     }
             )
+
 
             CardPair(
                 resultado.first,

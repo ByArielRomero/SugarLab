@@ -1,4 +1,5 @@
 package com.byariel.sugarlab.logic
+/*
 import com.byariel.sugarlab.data.Pokemon
 import com.byariel.sugarlab.data.TipoPokemon
 
@@ -19,7 +20,12 @@ fun CalcularEfectividad(atacantePokemon: Pokemon , defensorPokemon: Pokemon): Do
 }
 
 
+
+
 fun CalcularResultadoBatallaPokemon(atacantePokemon: Pokemon , defensorPokemon: Pokemon, efectividad:Double): Double{
     var daño = 50 * (atacantePokemon.ataque.toDouble() / defensorPokemon.defensa.toDouble()) * efectividad
     return daño
 }
+
+*/
+
