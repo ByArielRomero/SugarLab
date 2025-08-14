@@ -1,4 +1,5 @@
 package com.byariel.sugarlab.screens
+
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Canvas
@@ -38,9 +39,24 @@ fun CountGameScreen(viewModel: CountGameViewModel = viewModel()) {
     val showConfetti by viewModel.showConfetti
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("Juego: Contar 1 a 100") }) }
+        topBar = {
+            TopAppBar(
+                title = {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Text("Juego: Contar 1 a 100", fontSize = 32.sp)
+                    }
+                })
+        }
     ) { padding ->
-        Box(Modifier.padding(padding).fillMaxSize()) {
+        Box(
+            Modifier
+                .padding(padding)
+                .fillMaxSize()
+        ) {
 
             // Vistas según modo
             when (mode) {
@@ -66,10 +82,34 @@ fun CountGameScreen(viewModel: CountGameViewModel = viewModel()) {
                         .padding(bottom = 8.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    IconButton(onClick = { viewModel.setMode(ViewMode.LIST) }) { Icon(Icons.Filled.List, contentDescription = "Lista") }
-                    IconButton(onClick = { viewModel.setMode(ViewMode.GRID) }) { Icon(Icons.Filled.GridOn, contentDescription = "Grid") }
-                    IconButton(onClick = { viewModel.setMode(ViewMode.BARS) }) { Icon(Icons.Filled.BarChart, contentDescription = "Barras") }
-                    IconButton(onClick = { viewModel.setMode(ViewMode.ANIMATED) }) { Icon(Icons.Filled.PlayArrow, contentDescription = "Animado") }
+                    IconButton(onClick = { viewModel.setMode(ViewMode.LIST) }) {
+                        Icon(
+                            Icons.Filled.List,
+                            contentDescription = "Lista",
+                            modifier = Modifier.size(100.dp),
+                        )
+                    }
+                    IconButton(onClick = { viewModel.setMode(ViewMode.GRID) }) {
+                        Icon(
+                            Icons.Filled.GridOn,
+                            contentDescription = "Grid",
+                            modifier = Modifier.size(100.dp),
+                        )
+                    }
+                    IconButton(onClick = { viewModel.setMode(ViewMode.BARS) }) {
+                        Icon(
+                            Icons.Filled.BarChart,
+                            contentDescription = "Barras",
+                            modifier = Modifier.size(100.dp),
+                        )
+                    }
+                    IconButton(onClick = { viewModel.setMode(ViewMode.ANIMATED) }) {
+                        Icon(
+                            Icons.Filled.PlayArrow,
+                            contentDescription = "Animado",
+                            modifier = Modifier.size(100.dp),
+                        )
+                    }
                 }
                 Button(onClick = { viewModel.toggleCounting() }) {
                     Text(if (isCounting) "Parar" else "Iniciar")
@@ -85,7 +125,11 @@ fun CountGameScreen(viewModel: CountGameViewModel = viewModel()) {
 
 @Composable
 fun NumberListFancy(numbers: List<Int>) {
-    LazyColumn(Modifier.fillMaxSize()) {
+    LazyColumn(
+        Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         items(numbers.size) { i ->
             val scale by animateFloatAsState(
                 targetValue = if (i == numbers.lastIndex) 1.2f else 1f,
@@ -93,7 +137,7 @@ fun NumberListFancy(numbers: List<Int>) {
             )
             Text(
                 text = "${numbers[i]}",
-                fontSize = 24.sp,
+                fontSize = 35.sp,
                 color = Color(Random.nextFloat(), Random.nextFloat(), Random.nextFloat()),
                 modifier = Modifier
                     .padding(6.dp)
