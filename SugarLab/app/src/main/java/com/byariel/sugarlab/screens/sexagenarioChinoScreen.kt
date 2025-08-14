@@ -33,64 +33,61 @@ import com.byariel.sugarlab.ui.theme.EspaciadoGrande
 import com.byariel.sugarlab.ui.theme.EspaciadoMedio
 import com.byariel.sugarlab.utils.AgregarAnimacion
 import com.byariel.sugarlab.utils.ConverrtirStringToInt
+import androidx.compose.foundation.layout.*
+import androidx.compose.runtime.*
+import com.byariel.sugarlab.componentes.sexagenarioChino.SignoChinoCard
+
+import com.byariel.sugarlab.logic.SignoChino
+
 
 @Composable
 fun SexagenarioChinoScreen() {
     var previewValue by remember { mutableStateOf("") }
     var valorConvertido by remember { mutableStateOf(0) }
-    var resultado by remember { mutableStateOf<Pair<String, String>>(Pair("", "")) }
+    var signo by remember { mutableStateOf<SignoChino?>(null) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(EspaciadoMedio)
-            .background(MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-
-        ) {
+            .padding(EspaciadoMedio),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Spacer(modifier = Modifier.height(EspaciadoGrande))
         TituloSeccion("Sexagenario Chino")
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(EspaciadoGrande),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
-        ) {
-            AgregarAnimacion(
-                recurso = R.raw.dragon_chino,
-                size = 300.dp
-            )
+        AgregarAnimacion(
+            recurso = R.raw.dragon_chino,
+            size = 300.dp
+        )
 
-            InputNumber(
-                value = previewValue,
-                placeHolder = "Ej: 1984",
-                label = "Ingrese el año",
-                onValueChange = { previewValue = it })
-            Spacer(modifier = Modifier.height(EspaciadoGrande))
-            if (previewValue.isNotEmpty()) {
-                valorConvertido = ConverrtirStringToInt(previewValue);
+        InputNumber(
+            value = previewValue,
+            placeHolder = "Ej: 1984",
+            label = "Ingrese el año",
+            onValueChange = { previewValue = it }
+        )
+
+        Spacer(modifier = Modifier.height(EspaciadoGrande))
+
+        if (previewValue.isNotEmpty()) {
+            valorConvertido = ConverrtirStringToInt(previewValue)
+        }
+
+        BotonChino(
+            "Mostrar elemento y animal",
+            onClick = {
+                signo = SexagenarioChinoLogic(valorConvertido)
             }
+        )
 
-            BotonChino(
-                "Mostrar elemento y animal",
-                onClick =
-                    {
-                        resultado = SexagenarioChinoLogic(valorConvertido)
-                    }
-            )
+        Spacer(modifier = Modifier.height(EspaciadoGrande))
 
-
-            CardPair(
-                resultado.first,
-                resultado.second,
-                modifier = Modifier.padding(EspaciadoMedio)
-            )
-
-
+        signo?.let {
+            SignoChinoCard(signo = it)
         }
     }
 }
+
 
 
 @Preview
