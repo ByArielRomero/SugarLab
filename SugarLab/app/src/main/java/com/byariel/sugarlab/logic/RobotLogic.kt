@@ -44,11 +44,13 @@ reloj.
 
 
 // Direcciones del robot
+
+// Direcciones del robot (90° contrarreloj cada vez)
 enum class Direccion {
     Y_POSITIVO, X_NEGATIVO, Y_NEGATIVO, X_POSITIVO
 }
 
-// Función para calcular la posición del robot
+// Calcula la posición final del robot (X,Y)
 fun calcularPosicionFinal(pasos: List<Int>): Pair<Int, Int> {
     var x = 0
     var y = 0
@@ -62,7 +64,6 @@ fun calcularPosicionFinal(pasos: List<Int>): Pair<Int, Int> {
             Direccion.X_POSITIVO -> x += paso
         }
 
-        // Girar 90 grados en sentido contrario a las agujas del reloj
         direccionActual = when (direccionActual) {
             Direccion.Y_POSITIVO -> Direccion.X_NEGATIVO
             Direccion.X_NEGATIVO -> Direccion.Y_NEGATIVO
@@ -70,5 +71,6 @@ fun calcularPosicionFinal(pasos: List<Int>): Pair<Int, Int> {
             Direccion.X_POSITIVO -> Direccion.Y_POSITIVO
         }
     }
-    return Pair(x, y)
+
+    return Pair(x, y) // X primero, Y segundo
 }

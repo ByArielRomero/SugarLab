@@ -21,6 +21,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.IntOffset
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,28 +31,34 @@ fun RobotScreen() {
     var resultado by remember { mutableStateOf(Pair(0, 0)) }
     var mensajeError by remember { mutableStateOf("") }
 
-    // Estado animado para las coordenadas del robot
+    // Tamaño del canvas
+    val canvasSizeDp = 300.dp
+    val canvasSizePx = with(LocalDensity.current) { canvasSizeDp.toPx() }
+
+    // Escalado para que los pasos se vean dentro del canvas
+    val scaleFactor = 10f // 1 paso = 10px
+
     val robotOffset by animateOffsetAsState(
-        targetValue = Offset(resultado.first.toFloat(), resultado.second.toFloat()),
-        animationSpec = tween(durationMillis = 1000) // Animación de 1 segundo
+        targetValue = Offset(resultado.first * scaleFactor, resultado.second * scaleFactor),
+        animationSpec = tween(durationMillis = 800)
     )
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top // Alineado arriba para dejar espacio para la grilla
+        verticalArrangement = Arrangement.Top
     ) {
         Text("¿Dónde está el Robot? 🤖", fontSize = 24.sp, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(16.dp))
 
-        // Contenedor para la animación y la cuadrícula
         Box(
             modifier = Modifier
-                .size(300.dp)
+                .size(canvasSizeDp)
                 .background(Color.LightGray)
-                .clipToBounds() // No permite que el robot se salga de los límites
+                .clipToBounds()
         ) {
-            // Dibujamos el Canvas para la cuadrícula
             Canvas(modifier = Modifier.fillMaxSize()) {
                 val gridSize = 20.dp.toPx()
                 val totalWidth = size.width
@@ -58,42 +66,54 @@ fun RobotScreen() {
                 val centerX = totalWidth / 2
                 val centerY = totalHeight / 2
 
-                // Dibujar líneas de la cuadrícula
+                // Dibujar líneas de cuadrícula
                 for (x in 0..totalWidth.toInt() step gridSize.toInt()) {
-                    drawLine(Color.Gray, Offset(x.toFloat(), 0f), Offset(x.toFloat(), totalHeight), strokeWidth = 1f)
+                    drawLine(
+                        Color.Gray,
+                        Offset(x.toFloat(), 0f),
+                        Offset(x.toFloat(), totalHeight),
+                        1f
+                    )
                 }
                 for (y in 0..totalHeight.toInt() step gridSize.toInt()) {
-                    drawLine(Color.Gray, Offset(0f, y.toFloat()), Offset(totalWidth, y.toFloat()), strokeWidth = 1f)
+                    drawLine(
+                        Color.Gray,
+                        Offset(0f, y.toFloat()),
+                        Offset(totalWidth, y.toFloat()),
+                        1f
+                    )
                 }
 
-                // Dibujar los ejes X e Y
-                drawLine(Color.Red, Offset(0f, centerY), Offset(totalWidth, centerY), strokeWidth = 2f)
-                drawLine(Color.Red, Offset(centerX, 0f), Offset(centerX, totalHeight), strokeWidth = 2f)
+                // Dibujar ejes X y Y
+                drawLine(Color.Red, Offset(0f, centerY), Offset(totalWidth, centerY), 2f)
+                drawLine(Color.Red, Offset(centerX, 0f), Offset(centerX, totalHeight), 2f)
             }
 
-            // El emoji del robot que se mueve
+            // Tamaño del emoji en px (aprox)
+            val robotSizePx =
+                with(LocalDensity.current) { 30.sp.toPx() } // coincidir con fontSize del Text
+
+// Emoji del robot centrado correctamente
             Text(
                 text = "🤖",
                 fontSize = 30.sp,
-                modifier = Modifier
-                    .offset(
-                        x = (150.dp + robotOffset.x.dp), // Sumamos 150 para centrarlo
-                        y = (150.dp - robotOffset.y.dp) // Restamos para que Y positivo vaya hacia arriba
+                modifier = Modifier.offset {
+                    IntOffset(
+                        x = (canvasSizePx / 2 + robotOffset.x - robotSizePx / 2).toInt(),
+                        y = (canvasSizePx / 2 - robotOffset.y - robotSizePx / 2).toInt()
                     )
-                    .align(Alignment.Center)
+                }
             )
-        }
 
+        }
         Spacer(Modifier.height(16.dp))
 
         TextField(
             value = pasosText,
             onValueChange = { pasosText = it },
-            label = { Text("Pasos (ej: 10, 5, -2)") },
+            label = { Text("Pasos (ej: 10,5,-2)") },
             singleLine = true,
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done
-            )
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
         )
 
         Spacer(Modifier.height(16.dp))
@@ -115,9 +135,13 @@ fun RobotScreen() {
         Spacer(Modifier.height(16.dp))
 
         if (mensajeError.isNotEmpty()) {
-            Text(mensajeError, color = MaterialTheme.colorScheme.error, textAlign = TextAlign.Center)
+            Text(
+                mensajeError,
+                color = MaterialTheme.colorScheme.error,
+                textAlign = TextAlign.Center
+            )
         } else {
-            Text("Coordenadas Finales:")
+            Text("Coordenadas finales:")
             Text(
                 text = "(${resultado.first}, ${resultado.second})",
                 fontSize = 20.sp,
@@ -126,9 +150,13 @@ fun RobotScreen() {
             )
         }
     }
+
 }
+
+
 @Preview
 @Composable
-fun RobotPreview(){
+fun RobotPreview() {
     RobotScreen()
 }
+
